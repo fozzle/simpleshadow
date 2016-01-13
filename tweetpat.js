@@ -10,6 +10,7 @@ var Markov = require('markov'),
 
 var pat = Markov(1);
 var fd = fs.createReadStream(__dirname + '/pat.txt');
+var noop = function(){};
 
 pat.seed(fd, function() {
 	var res = [];
@@ -21,5 +22,6 @@ pat.seed(fd, function() {
 	twitter.statuses('update',
 		{status: res.join(' ')},
 		config.twitterAccessToken,
-		config.twitterAccessSecret);
+		config.twitterAccessSecret,
+		noop);
 });
