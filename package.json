@@ -14,6 +14,6 @@
   "dependencies": {
     "markov": "0.0.7",
     "request-promise": "^1.0.2",
-    "twitter": "^1.2.5"
+    "node-twitter-api": "^1.6.3"
   }
 }
