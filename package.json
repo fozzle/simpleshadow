@@ -1,0 +1,19 @@
+{
+  "name": "patbot",
+  "version": "1.0.0",
+  "description": "p@ bot",
+  "main": "scrapepat.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "pat"
+  ],
+  "author": "Kyle",
+  "license": "MIT",
+  "dependencies": {
+    "markov": "0.0.7",
+    "request-promise": "^1.0.2",
+    "twitter": "^1.2.5"
+  }
+}
