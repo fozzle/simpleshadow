@@ -8,7 +8,7 @@ var Markov = require('markov'),
     callback: ''
   });
 
-var pat = Markov(1);
+var pat = Markov(Math.round(Math.random() + 1));
 var fd = fs.createReadStream(__dirname + '/pat.txt');
 var noop = function(){};
 
