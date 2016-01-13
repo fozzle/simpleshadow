@@ -1,11 +1,12 @@
 var Markov = require('markov'),
 	fs = require('fs'),
 	config = require('./config.json'),
-	twitterAPI = require('node-twitter-api'),
-  twitter = new twitterAPI({
-    consumerKey: config.twitterConsumerKey,
-    consumerSecret: config.twitterConsumerSecret,
-    callback: ''
+	Twitter = require('twitter'),
+  client = new Twitter({
+    consumer_key: config.twitterConsumerKey,
+    consumer_secret: config.twitterConsumerSecret,
+    access_token_key: config.twitterAccessToken,
+		access_token_secret: config.twitterAccessSecret
   });
 
 var pat = Markov(Math.round(Math.random() + 1));
@@ -19,7 +20,7 @@ pat.seed(fd, function() {
 		res = pat.forward(pat.pick());
 	}
 
-	twitter.statuses('update',
+	client.post('statuses/update',
 		{status: res.join(' ')},
 		config.twitterAccessToken,
 		config.twitterAccessSecret,

@@ -1,3 +1,4 @@
 config.json
 pat.txt
 node_modules/
+*.db
