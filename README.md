@@ -26,7 +26,9 @@ Then we will collect tweets from the Twitter API and store them in our DB by run
 node scrapeTweets.js -i <flag indicating initial scrape [optional]> <twitter handle>
 ```
 
-Now we can make our first tweet, by running `node makeTweet.js`. Check your bot's timeline, it will have posted a tweet constructed from the data we gathered earlier!
+The `-i` flag is meant to be run on a first "scrape", as it will log tweets from the specified handle from most recent to oldest. Without the `-i` flag, the scraper will instead look for tweets after the *latest* logged tweet.
+
+Now we can make our first bot generated tweet, by running `node makeTweet.js`. Check your bot's timeline, it will have posted a tweet constructed from the data we gathered earlier!
 
 From here you can use cron to schedule your tweeting and scraping as necessary.
 
