@@ -1,6 +1,7 @@
 const twitter = require('twitter'),
   config = require('./config.json'),
   fs = require('fs'),
+  parseArgs = require('minimist'),
   Twitter = require('twitter'),
   Sequelize = require('sequelize'),
   timeBetweenFetches = 30 * 1000;
@@ -12,10 +13,10 @@ const client = new Twitter({
   access_token_secret: config.twitterAccessSecret
 });
 
-const args = process.argv.slice(2);
-const screenName = args[0];
+const args = parseArgs(process.argv.slice(2));
+const screenName = args._[0];
 const sequelize = new Sequelize('tweets', 'noop', 'noop', {
-  storage: __dirname + '/' + args[1],
+  storage: __dirname + '/' + args.d,
   dialect: 'sqlite'
 });
 
@@ -62,19 +63,21 @@ function storeTweets(tweets) {
 }
 
 function crawlCycle() {
+  const sortBy = args.i ? 'ASC' : 'DESC';
+  const optionField = args.i ? 'maxId' : 'sinceId';
   Tweet
   .findOne({
     order: [
-      ['tweetId', 'ASC']
+      ['tweetId', sortBy]
     ]
   })
-  .then(function(last) {
+  .then(function(tweet) {
     var opts = {
       screenName: screenName
     }
 
-    if (last) {
-      opts.maxId = last.tweetId
+    if (tweet) {
+      opts[optionField] = tweet.tweetId
     }
 
     return getTweets(opts)
@@ -97,9 +100,11 @@ function pruneTweet(text) {
 function getTweets(opts) {
   opts = {
     screen_name: opts.screenName,
-    count: 200, trim_user: true,
+    count: 200,
+    trim_user: true,
     include_rts: false,
-    max_id: opts.maxId
+    max_id: opts.maxId,
+    since_id: opts.sinceId
   };
 
   return new Promise(function (resolve, reject) {
