@@ -1,8 +1,8 @@
 {
-  "name": "patbot",
+  "name": "simpleshadow",
   "version": "1.0.0",
-  "description": "p@ bot",
-  "main": "scrapepat.js",
+  "description": "simple markov bots from twitter accounts",
+  "main": "makeTweet.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
