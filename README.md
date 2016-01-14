@@ -31,6 +31,3 @@ The `-i` flag is meant to be run on a first "scrape", as it will log tweets from
 Now we can make our first bot generated tweet, by running `node makeTweet.js`. Check your bot's timeline, it will have posted a tweet constructed from the data we gathered earlier!
 
 From here you can use cron to schedule your tweeting and scraping as necessary.
-
-More Options
-------------
