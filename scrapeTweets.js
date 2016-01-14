@@ -3,8 +3,8 @@ const twitter = require('twitter'),
   fs = require('fs'),
   parseArgs = require('minimist'),
   Twitter = require('twitter'),
-  Sequelize = require('sequelize'),
-  timeBetweenFetches = 30 * 1000;
+  models = require('./models'),
+  timeBetweenFetches = 1 * 1000;
 
 const client = new Twitter({
   consumer_key: config.twitterConsumerKey,
@@ -15,28 +15,8 @@ const client = new Twitter({
 
 const args = parseArgs(process.argv.slice(2));
 const screenName = args._[0];
-const sequelize = new Sequelize('tweets', 'noop', 'noop', {
-  storage: __dirname + '/' + args.d,
-  dialect: 'sqlite'
-});
 
-const Tweet = sequelize.define('Tweet', {
-  text: {
-    type: Sequelize.STRING(160),
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
-  },
-  tweetId: {
-    type: Sequelize.BIGINT,
-    unique: true
-  }
-}, {
-  freezeTableName: true
-});
-
-sequelize.sync({force: false}).then(crawlCycle);
+models.sequelize.sync({force: false}).then(crawlCycle);
 
 function storeTweets(tweets) {
   tweets = tweets.map(function(tweet) {
@@ -47,7 +27,7 @@ function storeTweets(tweets) {
   })
 
   tweets.forEach(function(tweet) {
-    Tweet.upsert(tweet);
+    models.Tweet.upsert(tweet);
   });
 
   // (tweets, {validate: true});
@@ -65,7 +45,7 @@ function storeTweets(tweets) {
 function crawlCycle() {
   const sortBy = args.i ? 'ASC' : 'DESC';
   const optionField = args.i ? 'maxId' : 'sinceId';
-  Tweet
+  models.Tweet
   .findOne({
     order: [
       ['tweetId', sortBy]

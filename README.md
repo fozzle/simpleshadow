@@ -13,7 +13,8 @@ First setup a config.json as follows:
   twitterConsumerKey: "<your Twitter consumer key>",
   twitterConsumerSecret: "<your Twitter consumer secret>",
   accessTokenKey: "<your Twitter access token key>",
-  accessTokenSecret: "<your Twitter access token secret>"
+  accessTokenSecret: "<your Twitter access token secret>",
+  dbFile: "<filename of sqlite db (will be created if doesn't exist)>"
 }
 ```
 
@@ -22,7 +23,7 @@ You'll probably want to get these from the Twitter account that you created for 
 Then we will collect tweets from the Twitter API and store them in our DB by running the scrapeTweets script. It's usage is detailed below:
 
 ```
-node scrapeTweets.js -d <database file> -i <initial scrape [optional]> <twitter handle>
+node scrapeTweets.js -i <flag indicating initial scrape [optional]> <twitter handle>
 ```
 
 Now we can make our first tweet, by running `node makeTweet.js`. Check your bot's timeline, it will have posted a tweet constructed from the data we gathered earlier!

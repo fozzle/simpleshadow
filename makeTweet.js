@@ -1,28 +1,41 @@
-var Markov = require('markov'),
-	fs = require('fs'),
-	config = require('./config.json'),
-	Twitter = require('twitter'),
+const Markov = require('markov'),
+  fs = require('fs'),
+  config = require('./config.json'),
+  parseArgs = require('minimist'),
+  Twitter = require('twitter'),
+  models = require('./models'),
+  Stream = require('stream'),
   client = new Twitter({
     consumer_key: config.twitterConsumerKey,
     consumer_secret: config.twitterConsumerSecret,
     access_token_key: config.twitterAccessToken,
-		access_token_secret: config.twitterAccessSecret
+    access_token_secret: config.twitterAccessSecret
   });
 
-var pat = Markov(Math.round(Math.random() + 1));
-var fd = fs.createReadStream(__dirname + '/pat.txt');
-var noop = function(){};
+const noop = function(){};
 
-pat.seed(fd, function() {
-	var res = [];
+const markov = Markov(Math.round(Math.random() + 1));
 
-	while (res.length < 3) {
-		res = pat.forward(pat.pick());
-	}
+models.Tweet.findAll().then(function(tweets) {
+  const stream = new Stream.Readable();
+  stream._read = noop;
+  tweets.forEach(function(tweet) {
+    stream.push(tweet.text + '\n');
+  });
 
-	client.post('statuses/update',
-		{status: res.join(' ')},
-		config.twitterAccessToken,
-		config.twitterAccessSecret,
-		noop);
+  stream.push(null);
+
+  markov.seed(stream, function() {
+    var res = [];
+
+    while (res.length < 3) {
+      res = markov.forward(markov.pick());
+    }
+
+    postTweet(res.join(' '));
+  });
 });
+
+function postTweet(text) {
+  client.post('statuses/update', {status: text}, noop);
+}
