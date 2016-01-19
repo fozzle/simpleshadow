@@ -3,7 +3,8 @@ const Sequelize = require('sequelize'),
 
 const sequelize = new Sequelize('tweets', 'noop', 'noop', {
   storage: __dirname + '/' + config.dbFile,
-  dialect: 'sqlite'
+  dialect: 'sqlite',
+  logging: false
 });
 
 const Tweet = sequelize.define('Tweet', {

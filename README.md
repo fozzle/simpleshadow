@@ -23,7 +23,7 @@ You'll probably want to get these from the Twitter account that you created for 
 Then we will collect tweets from the Twitter API and store them in our DB by running the scrapeTweets script. It's usage is detailed below:
 
 ```
-node scrapeTweets.js -i <flag indicating initial scrape [optional]> <twitter handle>
+node scrapeTweets.js <twitter handle> -i <flag indicating initial scrape [optional]>
 ```
 
 The `-i` flag is meant to be run on a first "scrape", as it will log tweets from the specified handle from most recent to oldest. Without the `-i` flag, the scraper will instead look for tweets after the *latest* logged tweet.

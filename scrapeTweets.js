@@ -20,7 +20,6 @@ models.sequelize.sync({force: false}).then(crawlCycle);
 
 function storeTweets(tweets) {
   tweets = tweets.map(function(tweet) {
-    console.log(tweet);
     return {text: pruneTweet(tweet.text), tweetId: tweet.id_str};
   }).filter(function(tweet) {
     return tweet.text !== "";
@@ -29,8 +28,6 @@ function storeTweets(tweets) {
   tweets.forEach(function(tweet) {
     models.Tweet.upsert(tweet);
   });
-
-  // (tweets, {validate: true});
 
   if (!tweets.length) {
     models.Tweet.count().then(function(count) {
