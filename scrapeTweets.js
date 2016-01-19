@@ -29,7 +29,7 @@ function storeTweets(tweets) {
     models.Tweet.upsert(tweet);
   });
 
-  if (!tweets.length) {
+  if (tweets.length <= 1) {
     models.Tweet.count().then(function(count) {
       console.log("Finished crawling, got " + count + " tweets.");
     });
