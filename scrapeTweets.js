@@ -33,7 +33,7 @@ function storeTweets(tweets) {
   // (tweets, {validate: true});
 
   if (!tweets.length) {
-    Tweet.count().then(function(count) {
+    models.Tweet.count().then(function(count) {
       console.log("Finished crawling, got " + count + " tweets.");
     });
     return;
